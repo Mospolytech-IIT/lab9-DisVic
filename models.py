@@ -3,10 +3,8 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
-# Базовый класс для моделей
 Base = declarative_base()
 
-# Таблица Users
 class User(Base):
     """Модель таблицы Users"""
     __tablename__ = 'users'
@@ -17,7 +15,6 @@ class User(Base):
     password = Column(String, nullable=False)
     posts = relationship('Post', back_populates='user')
 
-# Таблица Posts
 class Post(Base):
     """Модель таблицы Posts"""
     __tablename__ = 'posts'
@@ -28,9 +25,6 @@ class Post(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='posts')
 
-# Настройки подключения к базе данных
 DATABASE_URL = "postgresql://postgres:v1ctoryAppearance@localhost/python_check"
-ENGINE = create_engine(DATABASE_URL)
-
-# Создание сессии
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

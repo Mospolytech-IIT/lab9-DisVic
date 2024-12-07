@@ -1,10 +1,9 @@
 """Скрипт для извлечения данных из базы данных"""
-from sqlalchemy.orm import Session
 from models import SessionLocal, User, Post
 
-def fetch_all_users() -> None:
+def fetch_all_users():
     """Выводит всех пользователей"""
-    db: Session = SessionLocal()
+    db = SessionLocal()
     try:
         users = db.query(User).all()
         for user in users:
@@ -12,9 +11,9 @@ def fetch_all_users() -> None:
     finally:
         db.close()
 
-def fetch_posts_with_users() -> None:
+def fetch_posts_with_users():
     """Выводит все посты вместе с пользователями"""
-    db: Session = SessionLocal()
+    db = SessionLocal()
     try:
         posts = db.query(Post).all()
         for post in posts:
