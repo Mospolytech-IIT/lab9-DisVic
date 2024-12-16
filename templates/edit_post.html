@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Post</title>
+</head>
+<body>
+    <h1>Edit Post</h1>
+    <form id="editPostForm" action="/posts/edit/{{ post.id }}" method="put">
+        <input type="hidden" name="_method" value="put">
+        <label>Title: <input type="text" name="title" value="{{ post.title }}" required></label><br>
+        <label>Content: <textarea name="content" required>{{ post.content }}</textarea></label><br>
+        <button type="button" onclick="submitForm()">Update</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById('editPostForm');
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'PUT',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Post updated successfully!');
+                    window.location.href = '/posts'; // Redirect to /posts after success
+                } else {
+                    alert('Failed to update the post.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

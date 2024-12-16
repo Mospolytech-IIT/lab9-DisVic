@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+</head>
+<body>
+    <h1>Posts</h1>
+    <a href="/posts/new">Create New Post</a>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.title }}</strong><br>
+                {{ post.content }}<br>
+                Author: {{ post.user.username }}<br>
+                <a href="/posts/edit/{{ post.id }}">Edit</a>
+                <form action="/posts/delete/{{ post.id }}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <script>
+        // Intercept form submissions to handle DELETE requests
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async event => {
+                event.preventDefault(); // Prevent default form submission
+                const formData = new FormData(event.target);
+                const response = await fetch(event.target.action, {
+                    method: 'DELETE',
+                    body: formData
+                });
+                if (response.ok) {
+                    window.location.reload(); // Reload /posts on success
+                } else {
+                    alert('Failed to delete post.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
