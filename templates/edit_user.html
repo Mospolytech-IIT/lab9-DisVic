@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form id="editUserForm">
+        <label>Username: <input type="text" name="username" value="{{ user.username }}" required></label><br>
+        <label>Email: <input type="email" name="email" value="{{ user.email }}" required></label><br>
+        <label>Password: <input type="password" name="password" required></label><br>
+        <button type="button" onclick="submitForm()">Update</button>
+    </form>
+    
+    <script>
+        function submitForm() {
+            const form = document.getElementById('editUserForm');
+            const formData = new FormData(form);
+            fetch('/users/edit/{{ user.id }}', {
+                method: 'PUT',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/users'; // Redirect to /users
+                } else {
+                    alert('Failed to update user.');
+                }
+            });
+        }
+
+    </script>
+    
+</body>
+</html>
